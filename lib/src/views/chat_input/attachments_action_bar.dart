@@ -63,10 +63,10 @@ class _AttachmentActionBarState extends State<AttachmentActionBar> {
                     onPressed: _onGallery,
                     style: chatStyle.galleryButtonStyle!,
                   ),
-                  ActionButton(
-                    onPressed: _onFile,
-                    style: chatStyle.attachFileButtonStyle!,
-                  ),
+                  // ActionButton(
+                  //   onPressed: _onFile,
+                  //   style: chatStyle.attachFileButtonStyle!,
+                  // ),
                 ])
               : ActionButton(
                   onPressed: _onToggleMenu,
