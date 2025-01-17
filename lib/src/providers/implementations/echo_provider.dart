@@ -31,20 +31,20 @@ class EchoProvider extends LlmProvider with ChangeNotifier {
   }) async* {
     if (prompt == 'FAILFAST') throw const LlmFailureException('Failing fast!');
 
-    await Future.delayed(const Duration(milliseconds: 1000));
-    yield '# Echo\n';
+    await Future.delayed(const Duration(milliseconds: 2000));
+    yield 'I am an AI customer service assistant here to help you with any questions or issues related to the Linx CGM product. If you have any specific questions or need assistance, feel free to ask!';
 
-    switch (prompt) {
-      case 'CANCEL':
-        throw const LlmCancelException();
-      case 'FAIL':
-        throw const LlmFailureException('User requested failure');
-    }
-
-    await Future.delayed(const Duration(milliseconds: 1000));
-    yield prompt;
-
-    yield '\n\n# Attachments\n${attachments.map((a) => a.toString())}';
+    // switch (prompt) {
+    //   case 'CANCEL':
+    //     throw const LlmCancelException();
+    //   case 'FAIL':
+    //     throw const LlmFailureException('User requested failure');
+    // }
+    //
+    // await Future.delayed(const Duration(milliseconds: 1000));
+    // yield prompt;
+    //
+    // yield '\n\n# Attachments\n${attachments.map((a) => a.toString())}';
   }
 
   @override
