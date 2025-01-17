@@ -191,7 +191,7 @@ class _ChatInputState extends State<ChatInput> {
                                               minLines: 1,
                                               maxLines: 1024,
                                               controller: _textController,
-                                              autofocus: true,
+                                              autofocus: false,
                                               focusNode: _focusNode,
                                               textInputAction: isMobile
                                                   ? TextInputAction.newline
