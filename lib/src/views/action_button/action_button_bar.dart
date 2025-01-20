@@ -34,6 +34,7 @@ class ActionButtonBar extends StatelessWidget {
   Widget build(BuildContext context) => DecoratedBox(
         decoration: style.actionButtonBarDecoration!,
         child: OverflowBar(
+          spacing: 20,
           children: buttons,
         ),
       );
