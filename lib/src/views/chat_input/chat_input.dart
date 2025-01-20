@@ -3,6 +3,7 @@
 // found in the LICENSE file.
 
 import 'package:file_selector/file_selector.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
@@ -181,6 +182,11 @@ class _ChatInputState extends State<ChatInput> {
                                     ),
                                     child: _waveController.isRecording
                                         ? WaveformRecorder(
+                                            waveColor: Colors.white,
+                                            // Default to black
+                                            durationTextStyle: const TextStyle(
+                                                color: Colors.white),
+                                            // Default to black
                                             controller: _waveController,
                                             height: _minInputHeight,
                                             onRecordingStopped:
