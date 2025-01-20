@@ -2,9 +2,18 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/cupertino.dart' show CupertinoTextField;
+import 'package:flutter/cupertino.dart' show CupertinoButton, CupertinoIcons, CupertinoTextField;
 import 'package:flutter/material.dart'
-    show InputBorder, InputDecoration, TextField, TextInputAction;
+    show
+        InputBorder,
+        InputDecoration,
+        TextField,
+        TextInputAction,
+        IconButton,
+        Icon,
+        Icons,
+        Colors,
+        BoxConstraints;
 import 'package:flutter/widgets.dart';
 
 import '../styles/toolkit_colors.dart';
@@ -85,6 +94,17 @@ class ChatTextField extends StatelessWidget {
             border: Border.all(width: 0, color: ToolkitColors.transparent),
           ),
           textInputAction: textInputAction,
+          suffix: controller.text.isNotEmpty
+              ? CupertinoButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () => controller.clear(),
+                  child: const Icon(
+                    CupertinoIcons.clear_circled_solid,
+                    color: Colors.grey,
+                    size: 20,
+                  ),
+                )
+              : null,
         )
       : TextField(
           minLines: minLines,
@@ -100,6 +120,15 @@ class ChatTextField extends StatelessWidget {
             hintText: hintText,
             hintStyle: hintStyle,
             contentPadding: hintPadding,
+            suffixIcon: controller.text.isNotEmpty
+                ? IconButton(
+                    icon: const Icon(Icons.clear, size: 20),
+                    color: Colors.grey,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints(),
+                    onPressed: () => controller.clear(),
+                  )
+                : null,
           ),
         );
 }
