@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/material.dart' show ScaffoldMessenger, SnackBar;
+import 'package:flutter/material.dart'
+    show ScaffoldMessenger, SnackBar, SnackBarAction, SnackBarBehavior, kToolbarHeight;
 import 'package:flutter/widgets.dart';
 
 import '../../utility.dart';
@@ -27,8 +28,17 @@ class AdaptiveSnackBar {
     if (isCupertinoApp(context)) {
       _showCupertinoSnackBar(context: context, message: message);
     } else {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(message)));
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+          label: 'Dismiss', // 按钮文字
+          onPressed: () {
+            // 可以在这里关闭SnackBar
+            ScaffoldMessenger.of(context).clearSnackBars();
+          },
+        ),
+        duration: Duration(seconds: 3),
+      ));
     }
   }
 

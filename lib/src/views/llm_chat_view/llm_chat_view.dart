@@ -141,10 +141,7 @@ class _LlmChatViewState extends State<LlmChatView>
                     ChatHistoryView(
                       // can only edit if we're not waiting on the LLM or if
                       // we're not already editing an LLM response
-                      onEditMessage: _pendingPromptResponse == null &&
-                              _associatedResponse == null
-                          ? _onEditMessage
-                          : null,
+                      onEditMessage: null,
                     ),
                     if (widget.suggestions.isNotEmpty &&
                         widget.viewModel.provider.history.isEmpty)
@@ -204,28 +201,28 @@ class _LlmChatViewState extends State<LlmChatView>
 
   void _onCancelMessage() => _pendingPromptResponse?.cancel();
 
-  void _onEditMessage(ChatMessage message) {
-    assert(_pendingPromptResponse == null);
-
-    // remove the last llm message
-    final history = widget.viewModel.provider.history.toList();
-    assert(history.last.origin.isLlm);
-    final llmMessage = history.removeLast();
-
-    // remove the last user message
-    assert(history.last.origin.isUser);
-    final userMessage = history.removeLast();
-
-    // set the history to the new history
-    widget.viewModel.provider.history = history;
-
-    // set the text  to the last userMessage to provide initial prompt and
-    // attachments for the user to edit
-    setState(() {
-      _initialMessage = userMessage;
-      _associatedResponse = llmMessage;
-    });
-  }
+  // void _onEditMessage(ChatMessage message) {
+  //   assert(_pendingPromptResponse == null);
+  //
+  //   // remove the last llm message
+  //   final history = widget.viewModel.provider.history.toList();
+  //   assert(history.last.origin.isLlm);
+  //   final llmMessage = history.removeLast();
+  //
+  //   // remove the last user message
+  //   assert(history.last.origin.isUser);
+  //   final userMessage = history.removeLast();
+  //
+  //   // set the history to the new history
+  //   widget.viewModel.provider.history = history;
+  //
+  //   // set the text  to the last userMessage to provide initial prompt and
+  //   // attachments for the user to edit
+  //   setState(() {
+  //     _initialMessage = userMessage;
+  //     _associatedResponse = llmMessage;
+  //   });
+  // }
 
   Future<void> _onTranslateStt(XFile file) async {
     _initialMessage = null;

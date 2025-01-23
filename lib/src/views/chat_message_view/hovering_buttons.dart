@@ -45,7 +45,7 @@ class HoveringButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final paddedChild = Padding(
-      padding: const EdgeInsets.only(bottom: _iconSize + 2),
+      padding: EdgeInsets.only(bottom: isUserMessage ? (_iconSize + 2) : 6),
       child: child,
     );
 

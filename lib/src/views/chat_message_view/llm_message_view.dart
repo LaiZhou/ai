@@ -36,7 +36,7 @@ class LlmMessageView extends StatelessWidget {
   Widget build(BuildContext context) => Row(
         children: [
           Flexible(
-            flex: 6,
+            flex: 7,
             child: Column(
               children: [
                 ChatViewModelClient(
@@ -62,39 +62,57 @@ class LlmMessageView extends StatelessWidget {
                             ),
                           ),
                         ),
-                        HoveringButtons(
-                          isUserMessage: false,
-                          chatStyle: chatStyle,
-                          clipboardText: text,
-                          child: Container(
-                            decoration: llmStyle.decoration,
-                            margin: const EdgeInsets.only(left: 28),
-                            padding: const EdgeInsets.all(8),
-                            child: text == null
-                                ? SizedBox(
-                                    width: 24,
-                                    child: JumpingDotsProgressIndicator(
-                                      fontSize: 24,
-                                      color: chatStyle.progressIndicatorColor!,
-                                    ),
-                                  )
-                                : AdaptiveCopyText(
-                                    clipboardText: text,
-                                    chatStyle: chatStyle,
-                                    child: isWelcomeMessage ||
-                                            viewModel.responseBuilder == null
-                                        ? MarkdownBody(
-                                            data: text,
-                                            selectable: false,
-                                            styleSheet: llmStyle.markdownStyle,
-                                          )
-                                        : viewModel.responseBuilder!(
-                                            context,
-                                            text,
-                                          ),
+                        Column(
+                          children: [
+                            HoveringButtons(
+                              isUserMessage: false,
+                              chatStyle: chatStyle,
+                              clipboardText: text,
+                              child: Container(
+                                decoration: llmStyle.decoration,
+                                margin: const EdgeInsets.only(left: 28),
+                                padding: const EdgeInsets.all(8),
+                                child: text == null
+                                    ? SizedBox(
+                                        width: 24,
+                                        child: JumpingDotsProgressIndicator(
+                                          fontSize: 24,
+                                          color:
+                                              chatStyle.progressIndicatorColor!,
+                                        ),
+                                      )
+                                    : AdaptiveCopyText(
+                                        clipboardText: text,
+                                        chatStyle: chatStyle,
+                                        child: isWelcomeMessage ||
+                                                viewModel.responseBuilder ==
+                                                    null
+                                            ? MarkdownBody(
+                                                data: text,
+                                                selectable: true,
+                                                styleSheet:
+                                                    llmStyle.markdownStyle,
+                                              )
+                                            : viewModel.responseBuilder!(
+                                                context,
+                                                text,
+                                              ),
+                                      ),
+                              ),
+                            ),
+                            ...[
+                              Padding(
+                                padding: const EdgeInsets.only(left:28),
+                                child: Align(
+                                  alignment: Alignment.topLeft,
+                                  child: SizedBox(
+                                    child: const Text("img"),
                                   ),
-                          ),
-                        ),
+                                ),
+                              ),
+                            ],
+                          ],
+                        )
                       ],
                     );
                   },
@@ -102,7 +120,7 @@ class LlmMessageView extends StatelessWidget {
               ],
             ),
           ),
-          const Flexible(flex: 2, child: SizedBox()),
+          const Flexible(flex: 1, child: SizedBox()),
         ],
       );
 }

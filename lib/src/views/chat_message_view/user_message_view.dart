@@ -41,8 +41,8 @@ class UserMessageView extends StatelessWidget {
                 child: Align(
                   alignment: Alignment.topRight,
                   child: SizedBox(
-                    height: 80,
-                    width: 200,
+                    height: 160,
+                    width: 400,
                     child: AttachmentView(attachment),
                   ),
                 ),
