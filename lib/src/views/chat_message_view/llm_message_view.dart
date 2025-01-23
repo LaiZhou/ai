@@ -63,6 +63,7 @@ class LlmMessageView extends StatelessWidget {
                           ),
                         ),
                         Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             HoveringButtons(
                               isUserMessage: false,
@@ -102,7 +103,7 @@ class LlmMessageView extends StatelessWidget {
                             ),
                             ...[
                               Padding(
-                                padding: const EdgeInsets.only(left:28),
+                                padding: const EdgeInsets.only(left: 28),
                                 child: Align(
                                   alignment: Alignment.topLeft,
                                   child: SizedBox(
@@ -111,6 +112,10 @@ class LlmMessageView extends StatelessWidget {
                                 ),
                               ),
                             ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 12),
+                              child: SizedBox(),
+                            ),
                           ],
                         )
                       ],

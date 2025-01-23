@@ -83,6 +83,7 @@ class ChatMessage {
   /// Text content of the message.
   String? text;
 
+  List<String>? imageUrls;
   /// The origin of the message (user or LLM).
   final MessageOrigin origin;
 
@@ -94,11 +95,14 @@ class ChatMessage {
   /// This is typically used for LLM messages that are streamed in parts.
   void append(String text) => this.text = (this.text ?? '') + text;
 
+  void setImageUrls(List<String> imageUrls) => this.imageUrls = imageUrls;
+
   @override
   String toString() => 'ChatMessage('
       'origin: $origin, '
       'text: $text, '
-      'attachments: $attachments'
+      'attachments: $attachments, '
+      'imageUrls: $imageUrls'
       ')';
 
   /// Converts a [ChatMessage] to a JSON map representation.
