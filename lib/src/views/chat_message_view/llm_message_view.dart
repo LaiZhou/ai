@@ -2,6 +2,7 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 
@@ -46,7 +47,10 @@ class LlmMessageView extends StatelessWidget {
                     final llmStyle = LlmMessageStyle.resolve(
                       chatStyle.llmMessageStyle,
                     );
-
+                    final cardViewBuilder = message.imageUrls != null &&
+                            message.imageUrls!.isNotEmpty
+                        ? createCardViewBuilder(message)
+                        : null;
                     return Stack(
                       children: [
                         Padding(
@@ -101,21 +105,11 @@ class LlmMessageView extends StatelessWidget {
                                       ),
                               ),
                             ),
-                            ...[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 28),
-                                child: Align(
-                                  alignment: Alignment.topLeft,
-                                  child: SizedBox(
-                                    child: const Text("img"),
-                                  ),
-                                ),
-                              ),
-                            ],
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: SizedBox(),
-                            ),
+                            cardViewBuilder ??
+                                Padding(
+                                  padding: const EdgeInsets.only(bottom: 12),
+                                  child: SizedBox(),
+                                )
                           ],
                         )
                       ],
@@ -128,4 +122,40 @@ class LlmMessageView extends StatelessWidget {
           const Flexible(flex: 1, child: SizedBox()),
         ],
       );
+
+  Future<ChatMessage> withMessage(ChatMessage message) async {
+    await Future.delayed(Duration(seconds: 2)); // 模拟网络请求
+    return message;
+  }
+
+  FutureBuilder<ChatMessage> createCardViewBuilder(ChatMessage message) {
+    return FutureBuilder<ChatMessage>(
+        future: withMessage(message),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return CircularProgressIndicator(); // 网络请求中
+          } else if (snapshot.hasError) {
+            return Text('Error: ${snapshot.error}'); // 请求出错
+          } else if (snapshot.hasData) {
+            return Column(children: [
+              ...[
+                for (final url in snapshot.requireData.imageUrls!)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6,left: 28),
+                    child: Align(
+                      alignment: Alignment.topRight,
+                      child: SizedBox(
+                        height: 160,
+                        width: 400,
+                        child: Text(url),
+                      ),
+                    ),
+                  ),
+              ]
+            ]);
+          } else {
+            return Text('No data available'); // 无数据
+          }
+        });
+  }
 }
