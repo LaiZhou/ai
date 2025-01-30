@@ -54,7 +54,7 @@ class ChatInput extends StatefulWidget {
 
   /// Callback function triggered when a message is sent.
   ///
-  /// Takes a [String] for the message text and an [`Iterable<Attachment>`] for
+  /// Takes a [String] for the message text and [`Iterable<Attachment>`] for
   /// any attachments.
   final void Function(String, Iterable<Attachment>) onSendMessage;
 
@@ -215,6 +215,10 @@ class _ChatInputState extends State<ChatInput> {
                                                 horizontal: 12,
                                                 vertical: 8,
                                               ),
+                                              onClear: () {
+                                                _textController.clear();
+                                                _focusNode.requestFocus();
+                                              },
                                             ),
                                           ),
                                   ),

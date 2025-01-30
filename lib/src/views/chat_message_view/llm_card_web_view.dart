@@ -12,16 +12,43 @@ class LlmCardWebView extends StatelessWidget {
   });
 
   void _showFullScreenImage(BuildContext context, String imageUrl) {
-    AdaptiveAlertDialog.show<void>(
+    showDialog(
       context: context,
       barrierDismissible: true,
-      content: Padding(
-        padding: const EdgeInsets.all(0),
-        child: Center(
-          child: Image.memory(
-            base64Decode(imageUrl.split(',')[1]),
-            fit: BoxFit.contain,
-          ),
+      builder: (context) => Dialog(
+        backgroundColor: Colors.black,
+        insetPadding: EdgeInsets.zero,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () => Navigator.of(context).pop(),
+              ),
+            ),
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height * 0.8,
+              child: Center(
+                child: InteractiveViewer(
+                  minScale: 0.5,
+                  maxScale: 4.0,
+                  child: Image.memory(
+                    base64Decode(imageUrl.split(',')[1]),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: IconButton(
+                icon: const Icon(Icons.close, color: Colors.white),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -52,6 +79,22 @@ class LlmCardWebView extends StatelessWidget {
             supportZoom: false,
           ),
           onLoadStop: (controller, url) {
+            // 注入 CSS 让图片占满容器
+            controller.evaluateJavascript(source: '''
+              document.body.style.margin = '0';
+              document.body.style.padding = '0';
+              document.body.style.backgroundColor = 'white';
+              document.body.style.display = 'flex';
+              document.body.style.alignItems = 'center';
+              document.body.style.justifyContent = 'center';
+              var img = document.querySelector('img');
+              if (img) {
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.objectFit = 'contain';
+              }
+            ''');
+
             controller.addJavaScriptHandler(
               handlerName: 'onImageClicked',
               callback: (args) {

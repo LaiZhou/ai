@@ -2,7 +2,8 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-import 'package:flutter/cupertino.dart' show CupertinoButton, CupertinoIcons, CupertinoTextField;
+import 'package:flutter/cupertino.dart'
+    show CupertinoButton, CupertinoIcons, CupertinoTextField;
 import 'package:flutter/material.dart'
     show
         InputBorder,
@@ -41,6 +42,7 @@ class ChatTextField extends StatelessWidget {
     required this.hintText,
     required this.hintStyle,
     required this.hintPadding,
+    required this.onClear,
     super.key,
   });
 
@@ -76,6 +78,9 @@ class ChatTextField extends StatelessWidget {
 
   /// Called when the user submits editable content.
   final void Function(String text) onSubmitted;
+
+  /// Called when the user clears the text field.
+  final VoidCallback? onClear;
 
   @override
   Widget build(BuildContext context) => isCupertinoApp(context)
@@ -122,11 +127,11 @@ class ChatTextField extends StatelessWidget {
             contentPadding: hintPadding,
             suffixIcon: controller.text.isNotEmpty
                 ? IconButton(
-                    icon: const Icon(Icons.clear, size: 20),
-                    color: Colors.grey,
+                    icon: const Icon(Icons.cancel, size: 20),
+                    color: Colors.black54,
                     padding: EdgeInsets.zero,
                     constraints: const BoxConstraints(),
-                    onPressed: () => controller.clear(),
+                    onPressed: onClear,
                   )
                 : null,
           ),
