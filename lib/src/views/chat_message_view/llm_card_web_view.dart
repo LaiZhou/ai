@@ -26,17 +26,16 @@ class LlmCardWebView extends StatelessWidget {
                 onTap: () => Navigator.of(context).pop(),
               ),
             ),
-            SizedBox(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height * 0.8,
-              child: Center(
-                child: InteractiveViewer(
-                  minScale: 0.5,
-                  maxScale: 4.0,
-                  child: Image.memory(
-                    base64Decode(imageUrl.split(',')[1]),
-                    fit: BoxFit.contain,
-                  ),
+            Center(
+              child: InteractiveViewer(
+                minScale: 0.5,
+                maxScale: 4.0,
+                constrained: false,
+                child: Image.memory(
+                  base64Decode(imageUrl.split(',')[1]),
+                  fit: BoxFit.contain,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
                 ),
               ),
             ),
