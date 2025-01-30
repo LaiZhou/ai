@@ -119,16 +119,17 @@ class LlmCardWebView extends StatelessWidget {
               },
             );
             controller.evaluateJavascript(source: '''
-              let lastTap = 0;
               document.addEventListener('touchend', function(e) {
                 if (e.target.tagName === 'IMG') {
-                  const currentTime = new Date().getTime();
-                  const tapLength = currentTime - lastTap;
-                  if (tapLength < 300 && tapLength > 0) {
-                    window.flutter_inappwebview.callHandler('onImageClicked', e.target.getAttribute('src'));
-                    e.preventDefault();
-                  }
-                  lastTap = currentTime;
+                  window.flutter_inappwebview.callHandler('onImageClicked', e.target.getAttribute('src'));
+                  e.preventDefault();
+                }
+              });
+              // 同时支持鼠标点击
+              document.addEventListener('click', function(e) {
+                if (e.target.tagName === 'IMG') {
+                  window.flutter_inappwebview.callHandler('onImageClicked', e.target.getAttribute('src'));
+                  e.preventDefault();
                 }
               });
             ''');
