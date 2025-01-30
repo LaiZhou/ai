@@ -12,6 +12,7 @@ import '../../styles/llm_message_style.dart';
 import '../jumping_dots_progress_indicator/jumping_dots_progress_indicator.dart';
 import 'adaptive_copy_text.dart';
 import 'hovering_buttons.dart';
+import 'llm_card_web_view.dart';
 
 /// A widget that displays an LLM (Language Model) message in a chat interface.
 @immutable
@@ -143,7 +144,7 @@ class LlmMessageView extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 6, left: 28),
                     child: Align(
                       alignment: Alignment.topRight,
-                      child: WebViewContainer(
+                      child: LlmCardWebView(
                         url: url,
                       ),
                     ),
@@ -155,44 +156,4 @@ class LlmMessageView extends StatelessWidget {
           }
         });
   }
-}
-
-class WebViewContainer extends StatelessWidget {
-  final String url;
-
-  const WebViewContainer({
-    required this.url,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) => Container(
-        width: double.infinity,
-        height: 160,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: Border.all(color: Colors.grey.withOpacity(0.2)),
-        ),
-        clipBehavior: Clip.hardEdge,
-        child: InAppWebView(
-          initialUrlRequest: URLRequest(url: WebUri(url)),
-          initialSettings: InAppWebViewSettings(
-            transparentBackground: true,
-            useShouldOverrideUrlLoading: true,
-            mediaPlaybackRequiresUserGesture: false,
-            cacheMode: CacheMode.LOAD_CACHE_ELSE_NETWORK,
-            allowFileAccessFromFileURLs: true,
-            allowUniversalAccessFromFileURLs: true,
-            useShouldInterceptRequest: true,
-            useOnLoadResource: true,
-            disableVerticalScroll: true,
-            disableHorizontalScroll: true,
-            supportZoom: false,
-          ),
-          onReceivedError: (controller, request, error) {
-            print('Load error: ${error.description}');
-          },
-          onLoadStop: (controller, url) {},
-        ),
-      );
 }
