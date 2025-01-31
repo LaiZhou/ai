@@ -13,6 +13,7 @@ import '../jumping_dots_progress_indicator/jumping_dots_progress_indicator.dart'
 import 'adaptive_copy_text.dart';
 import 'hovering_buttons.dart';
 import 'llm_card_web_view.dart';
+import 'llm_card_list_view.dart';
 
 /// A widget that displays an LLM (Language Model) message in a chat interface.
 @immutable
@@ -49,7 +50,7 @@ class LlmMessageView extends StatelessWidget {
                     );
                     final cardViewBuilder = message.imageUrls != null &&
                             message.imageUrls!.isNotEmpty
-                        ? createCardViewBuilder(message)
+                        ? LlmCardListView(message: message)
                         : null;
                     return Stack(
                       children: [
@@ -122,38 +123,4 @@ class LlmMessageView extends StatelessWidget {
           const Flexible(flex: 1, child: SizedBox()),
         ],
       );
-
-  Future<ChatMessage> withMessage(ChatMessage message) async {
-    // await Future.delayed(Duration(seconds: 2)); // 模拟网络请求
-    return message;
-  }
-
-  FutureBuilder<ChatMessage> createCardViewBuilder(ChatMessage message) {
-    return FutureBuilder<ChatMessage>(
-        future: withMessage(message),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return CircularProgressIndicator();
-          } else if (snapshot.hasError) {
-            return Text('Error: ${snapshot.error}');
-          } else if (snapshot.hasData) {
-            return Column(children: [
-              ...[
-                for (final url in snapshot.requireData.imageUrls!)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6, left: 28),
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: LlmCardWebView(
-                        url: url,
-                      ),
-                    ),
-                  ),
-              ]
-            ]);
-          } else {
-            return Text('No data available');
-          }
-        });
-  }
 }
