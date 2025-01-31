@@ -11,6 +11,7 @@ import '../../dialogs/adaptive_dialog.dart';
 import '../../dialogs/image_preview_dialog.dart';
 import '../../providers/interface/attachments.dart';
 import '../../styles/llm_chat_view_style.dart';
+import '../../utils/image_util.dart';
 import '../action_button/action_button.dart';
 import '../attachment_view/attachment_view.dart';
 
@@ -66,9 +67,11 @@ class RemovableAttachment extends StatelessWidget {
       );
 
   Future<void> _showPreviewDialog(BuildContext context) async =>
-      AdaptiveAlertDialog.show<void>(
-        context: context,
-        barrierDismissible: true,
-        content: ImagePreviewDialog(attachment as ImageFileAttachment),
-      );
+      // AdaptiveAlertDialog.show<void>(
+      //   context: context,
+      //   barrierDismissible: true,
+      //   content: ImagePreviewDialog(attachment as ImageFileAttachment),
+      // );
+      ImageUtil.showFullScreenImage(context,
+          Image.memory((attachment as ImageFileAttachment).bytes).image);
 }

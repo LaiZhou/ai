@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import '../../dialogs/adaptive_dialog.dart';
-import '../../dialogs/image_preview_dialog.dart';
+import '../../utils/image_util.dart';
 import '../../providers/interface/attachments.dart';
 
 /// A widget that displays an image attachment.
@@ -34,49 +34,13 @@ class ImageAttachmentView extends StatelessWidget {
             child: Image.memory(attachment.bytes)),
       );
 
-  Future<void> _showPreviewDialog(BuildContext context) async =>
-      showDialog(
-        context: context,
-        barrierDismissible: true,
-        builder: (context) => Dialog(
-          backgroundColor: Colors.black,
-          insetPadding: EdgeInsets.zero,
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: GestureDetector(
-                  behavior: HitTestBehavior.translucent,
-                  onTap: () => Navigator.of(context).pop(),
-                ),
-              ),
-              Center(
-                child: InteractiveViewer(
-                  minScale: 0.5,
-                  maxScale: 4.0,
-                  constrained: false,
-                  child: Image.memory(
-                    attachment.bytes,
-                    fit: BoxFit.contain,
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height,
-                  ),
-                ),
-              ),
-              Positioned(
-                right: 0,
-                top: 0,
-                child: IconButton(
-                  icon: const Icon(Icons.close, color: Colors.white),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ],
-          ),
-        ),
-      );
-      // AdaptiveAlertDialog.show<void>(
-      //   context: context,
-      //   barrierDismissible: true,
-      //   content: ImagePreviewDialog(attachment),
-      // );
+  Future<void> _showPreviewDialog(BuildContext context) async {
+    // AdaptiveAlertDialog.show<void>(
+    //   context: context,
+    //   barrierDismissible: true,
+    //   content: ImagePreviewDialog(attachment),
+    // );
+    ImageUtil.showFullScreenImage(
+        context, Image.memory(attachment.bytes).image);
+  }
 }

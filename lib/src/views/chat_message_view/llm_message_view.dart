@@ -4,15 +4,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../chat_view_model/chat_view_model_client.dart';
+import '../../dialogs/adaptive_dialog.dart';
 import '../../providers/interface/chat_message.dart';
 import '../../styles/llm_chat_view_style.dart';
 import '../../styles/llm_message_style.dart';
+import '../../utils/image_util.dart';
 import '../jumping_dots_progress_indicator/jumping_dots_progress_indicator.dart';
 import 'adaptive_copy_text.dart';
 import 'hovering_buttons.dart';
-import 'llm_card_web_view.dart';
 import 'llm_card_list_view.dart';
 
 /// A widget that displays an LLM (Language Model) message in a chat interface.
@@ -48,7 +48,7 @@ class LlmMessageView extends StatelessWidget {
                     final llmStyle = LlmMessageStyle.resolve(
                       chatStyle.llmMessageStyle,
                     );
-                    final cardViewBuilder = message.imageUrls != null &&
+                    final cardListView = message.imageUrls != null &&
                             message.imageUrls!.isNotEmpty
                         ? LlmCardListView(message: message)
                         : null;
@@ -98,6 +98,24 @@ class LlmMessageView extends StatelessWidget {
                                                 selectable: true,
                                                 styleSheet:
                                                     llmStyle.markdownStyle,
+                                                imageBuilder:
+                                                    (uri, title, alt) {
+                                                  final networkImage =
+                                                      Image.network(
+                                                    uri.toString(),
+                                                    fit: BoxFit.contain,
+                                                  );
+                                                  return GestureDetector(
+                                                    onTap: () {
+                                                      ImageUtil
+                                                          .showFullScreenImage(
+                                                              context,
+                                                              networkImage
+                                                                  .image);
+                                                    },
+                                                    child: networkImage,
+                                                  );
+                                                },
                                               )
                                             : viewModel.responseBuilder!(
                                                 context,
@@ -106,7 +124,7 @@ class LlmMessageView extends StatelessWidget {
                                       ),
                               ),
                             ),
-                            cardViewBuilder ??
+                            cardListView ??
                                 Padding(
                                   padding: const EdgeInsets.only(bottom: 12),
                                   child: SizedBox(),

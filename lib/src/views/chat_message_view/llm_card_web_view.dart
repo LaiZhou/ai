@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import '../../dialogs/adaptive_dialog.dart';
+import '../../utils/image_util.dart';
 
 class LlmCardWebView extends StatefulWidget {
   final String url;
@@ -114,45 +115,8 @@ class _LlmCardWebViewState extends State<LlmCardWebView> {
   }
 
   void _showFullScreenImage(BuildContext context, String imageUrl) {
-    showDialog(
-      context: context,
-      barrierDismissible: true,
-      builder: (context) => Dialog(
-        backgroundColor: Colors.black,
-        insetPadding: EdgeInsets.zero,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () => Navigator.of(context).pop(),
-              ),
-            ),
-            Center(
-              child: InteractiveViewer(
-                minScale: 0.5,
-                maxScale: 4.0,
-                constrained: false,
-                child: Image.memory(
-                  base64Decode(imageUrl.split(',')[1]),
-                  fit: BoxFit.contain,
-                  width: MediaQuery.of(context).size.width,
-                  height: MediaQuery.of(context).size.height,
-                ),
-              ),
-            ),
-            Positioned(
-              right: 0,
-              top: 0,
-              child: IconButton(
-                icon: const Icon(Icons.close, color: Colors.white),
-                onPressed: () => Navigator.of(context).pop(),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
+    ImageUtil.showFullScreenImage(
+        context, Image.memory(base64Decode(imageUrl.split(',')[1])).image);
   }
 
   @override
